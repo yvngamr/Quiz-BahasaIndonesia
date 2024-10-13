@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Quiz Bahasa Indonesia - kelompok 5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Quiz Bahasa Indonesia - kelompok 5">
+    <meta property="og:url" content="https://myportfolio.vercel.app/">
+    <meta property="og:description" content="Quiz Mata Kuliah Bahasa Indonesia">
+    <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqo_EQJKSEslo9GFhkfQOKda0RcsAgbdvC0r9nRcyP8bNuUr8c9K0f9Zg&s=10">
+    <link rel="stylesheet" href="./Style.css">
+    <link rel="icon" type="image/png" sizes="64x64" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqo_EQJKSEslo9GFhkfQOKda0RcsAgbdvC0r9nRcyP8bNuUr8c9K0f9Zg&s=10">
+ 
+</head>
+<body>
+  <audio id="autoplayAudio" src="audio1.mp3" autoplay muted></audio>
+    <div id="quiz-container">
+        <div id="start-screen">
+            <h1>Quiz Bahasa Indonesia</h1>
+            <h3>Kelompok 5</h3>
+            <input type="text" id="name-input" placeholder="Masukin nama kamu">
+            <button class="btn" onclick="startQuiz()">Mulai Quiz</button>
+        </div>
+         <div id="warning-screen" style="display: none;">
+            <h2>Perhatian!</h2>
+            <b><p>Sebelum memulai quiz, perhatikan aturan berikut:</b>
+            <ul>
+              <b><i>
+                <li>Setiap pertanyaan memiliki batas waktu 30 detik.</li>
+                <li>Kamu tidak dapat kembali ke pertanyaan sebelumnya.</li>
+                <li>Pastikan koneksi internet Anda stabil.</li>
+                <li>Jangan refresh halaman selama quiz berlangsung.</li>
+                <li>Dilarang melakukan tindakan tidak jujur</l>
+                <li>Jika sudah selesai klik button BAGIKAN dan kirim ke Grup Bahasa Indonesia, lalu kirim😉</li>
+                </b></i>
+            </ul>
+            <button class="btn" onclick="beginQuiz()">Saya Mengerti, Mulai Quiz🔜</button>
+            <button class="btn" onclick="goBack()">Kembali🔙</button>
+        </div>
+        <div id="question-screen" style="display: none;">
+            <div id="timer"></div>
+            <img id="question-image" src="" alt="Question Image">
+            <h2 id="question"></h2>
+            <div id="choices"></div>
+            <div id="notification" class="notification" style="display: none;"></div>
+        </div>
+        <div id="results-screen" style="display: none;">
+            <h2>Quiz Selesai!</h2>
+            <p>Score: <span id="score"></span></span>
+            <p>Betul: <span id="correct-count"></span></span>
+            <p>Salah: <span id="incorrect-count"></span></span>
+            <button class="btn" onclick="shareResults()">Bagikan ke grup WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1.Bagaimana cara menyatakan bahwa suatu kalimat itu efektif?",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqdfiTnTJdRxNEqnySDHAeqpZxxYhFnNORGmTdCyba04EMtNrxGm5gEz4z&s=10",
+                choices: ["A.Berhasil menyatakan  pesan,gagasan,perasaan,maupun pemberitahuan sesuai dengan pemahaman.", "B.Dapat menyatakan perasaan kepadanya", "C.Memiliki Unsur Kalimat yang dapat mengkecohkan antara satu kalimat dengan kalimat yang lainnya.", "D.Dapat dipahami oleh diri sendiri saja"],
+                correctAnswer: 0
+            },
+            {
+                question: "2.Kaidah penyusunan kalimat efektif seperti apa?",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwayAWKwmYfKCxUK0OH5wEqRh_8w1Yysbn7Q&usqp=CAU",
+                choices: ["A.Memilh kata yang benar,sesuai dengan ejaan,dapat di pahami diri sendiri saja.*", "B.Memiliki Unsur-Unsur penting,Mengikuti aturan ejaan yang disempurnakan (EYD)", "C.Mengetahui bagaimana pemisahaan ejaan,Dapat menyempurnakan kalimat,Mengetahui susunan kalimat yang benar dan di ubah kembali.", "D.Merangkai kata-kata dengan sendirinya,dapat membedakan antar kalimat,Mengetahui unsur-unsur penting saja."],
+                correctAnswer: 1
+            },
+            {
+                question: "3.Mengapa penting untuk memperhatikan kaidah dalam menyusun kalimat?",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHbU9sWgI3OyaDExFspA8Vp31hzGO3TkxDUA&usqp=CAU",
+                choices: ["A.Agar tulisan terlihat panjang", "B.Agar tulisan mudah dipahami dan tidak terjadi kesalahan penyampaian pesan", "C.Agar tulisan tidak menggunakan kata sulit*", "D.Agar tulisan lebih berwarna dan berkesan"],
+                correctAnswer: 1
+            },
+            {
+                question: "4.Apa yang dimaksud dengan kalimat dalam berbahasa?",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0bGc5w8Ya57HBCPTZiMAz0l_SAkcTWTjvVQ&usqp=CAU",
+                choices: ["A.Gabungan kata yang memiliki arti", "B.Rangkaian kata yang sesuai dengan kaidah dan dapat mengungkapkan gagasan, perasaan, atau pikiran", "C.Penggunaan bahasa yang tidak perlu memperhatikan kaidah", "D.Gabungan huruf yang tidak mengikuti aturan"],
+                correctAnswer: 1
+            },
+            {
+                question: "5.Kesalahan gramatikal yang sering terjadi dalam penulisan mencakup hal-hal berikut, kecuali",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF3exi98j9Oo4MreUR0-SJ_t8RLfun3oXpaA&usqp=CAU",
+                choices: ["A.Pilihan kata", "B.Frasa", "C.Klaussa", "D.Gaya bahasa"],
+                correctAnswer: 3
+            },
+            {
+                question: "6.Apa yang dimaksud dengan kesalahan leksikal dalam penulisan?",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSca_78BRLoZJYJK5C3tvz-AQ8Ujo4j1jxmaoCFh7OYQj9sIdu5KsNn3KZU&s=10",
+                choices: ["A.Kesalahan dalam memilih kata", "B.Kesalahan dalam menyusun huruf", "C.Kesalahan dalam mengucapkan kata", "D.Kesalahan dalam memilih huruf vokal"],
+                correctAnswer: 0
+            },
+            {
+                question: "7.Dalam penyusunan kalimat efektif, apa yang harus dihindari?",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmbIwbUYq8nC8GElRMSWQGRGC556Qh7Ynq_qq_hW_7ux2WTik6hnoSYRsF&s=10",
+                choices: ["A.Menggunakan sinonim kata", "B.Menggunakan kata penghubung", "C.Menghindari pengulangan subjek", "D.Menyusun kata dalam frasa yang tepat"],
+                correctAnswer: 2
+            },
+            {
+                question: "8.Salah satu ciri kalimat efektif adalah kesepadanan antara:",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzhq-rwFxG0pzwP6otPFUi2fSH4ZAhZJfsyQ&usqp=CAU",
+                choices: ["A. Gagasan pokok dan kesimpulan", "B.Ide utama dan gagasan pendukung", "C.Subjek, predikat, objek", "D.Frasa, kata, dan klausa"],
+                correctAnswer: 2
+            },
+            {
+                question: "9.Apa tujuan dari penegasan dalam penyusunan kalimat efektif?",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTShcvaRoYVfn9xRCK6k7-L_lAwnQYulDKcoA&usqp=CAU",
+                choices: ["A.Menambah panjang kalimat", "B.Menonjolkan ide pokok dalam kalimat", "C.Menarik perhatian pembaca", "D.Memperindah kalimat"],
+                correctAnswer: 1
+            },
+            {
+                question: "10.Kalimat berikut yang efektif adalah kecuali.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgPRQuQtjSYsVS-b25TYysun3m_YO6J15IQ&usqp=CAU",
+                choices: ["A.Novel ini membahas Persahabatan di sekolah", "B.Novel ini membahas tentang persahabatan di sekolah", "C.Persahabatan di sekolah dibahas dalam novel ini", "D.Dalam novel ini membahas persahabatan"],
+                correctAnswer: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft;
+let correctCount = 0;
+let incorrectCount = 0;
+
+function startQuiz() {
+    const name = document.getElementById('name-input').value;
+    if (name.trim() === '') {
+        alert('Masukin nama dulu deck🗿');
+        return;
+    }
+    localStorage.setItem('quizName', name);
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('warning-screen').style.display = 'block';
+}
+
+function goBack() {
+    document.getElementById('warning-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'block';
+}
+
+function beginQuiz() {
+    document.getElementById('warning-screen').style.display = 'none';
+    document.getElementById('question-screen').style.display = 'block';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentQuestion >= questions.length) {
+        endQuiz();
+        return;
+    }
+
+    const question = questions[currentQuestion];
+    document.getElementById('question-image').src = question.image;
+    document.getElementById('question').textContent = question.question;
+
+    const choicesContainer = document.getElementById('choices');
+    choicesContainer.innerHTML = '';
+    question.choices.forEach((choice, index) => {
+        const button = document.createElement('button');
+        button.textContent = choice;
+        button.className = 'btn';
+        button.onclick = () => selectAnswer(index);
+        choicesContainer.appendChild(button);
+    });
+
+    document.getElementById('notification').style.display = 'none';
+    startTimer();
+}
+
+function startTimer() {
+    timeLeft = 30; // 30 seconds per question
+    updateTimerDisplay();
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            selectAnswer(-1); // Time's up, move to next question
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    document.getElementById('timer').textContent = `Time left: ${timeLeft}s`;
+}
+
+function selectAnswer(choiceIndex) {
+    // Disable all buttons after the first choice
+    const buttons = document.querySelectorAll('#choices .btn');
+    buttons.forEach(button => button.disabled = true);
+
+    clearInterval(timer);
+    const notification = document.getElementById('notification');
+    if (choiceIndex === questions[currentQuestion].correctAnswer) {
+        score++;
+        correctCount++;
+        notification.textContent = "Betul😊";
+        notification.className = "notification correct";
+    } else {
+        incorrectCount++;
+        notification.textContent = "Salah🗿";
+        notification.className = "notification incorrect";
+    }
+    notification.style.display = 'block';
+
+    setTimeout(() => {
+        currentQuestion++;
+        loadQuestion();
+    }, 1500); // Show notification for 1.5 seconds before moving to the next question
+}
+
+function endQuiz() {
+    document.getElementById('question-screen').style.display = 'none';
+    document.getElementById('results-screen').style.display = 'block';
+    document.getElementById('score').textContent = `${score} dari ${questions.length}`;
+    document.getElementById('correct-count').textContent = correctCount;
+    document.getElementById('incorrect-count').textContent = incorrectCount;
+    localStorage.setItem('quizScore', score);
+}
+
+function shareResults() {
+    const name = localStorage.getItem('quizName');
+    const score = localStorage.getItem('quizScore');
+    const message = `${name} selesai menyelsaikan quiz dengan score ${score} dari ${questions.length}! Benar: ${correctCount}, Salah: ${incorrectCount}`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('autoplayAudio');
+
+        // Coba mulai audio saat halaman dimuat
+        audio.play().catch(() => {
+            // Jika autoplay gagal (misalnya, karena policy browser), beri tahu pengguna untuk berinteraksi
+            console.log('Autoplay di-block. Klik di mana saja untuk mulai audio.');
+            document.body.addEventListener('click', function() {
+                audio.play();
+            }, { once: true });
+        });
+    });
+    </script>
+</body>
+</html>

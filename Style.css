@@ -1,0 +1,85 @@
+body {
+            font-family: Georgia, serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 130vh !important;
+            width: 100% auto;
+            margin: 0;
+            background-image: url('Bg.gif');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+           }
+           
+           
+        #quiz-container {
+          background-color: rgba(255, 255, 255, 0); 
+          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
+          padding: 25px;
+          border-radius: 10px;
+          text-align: center;
+          max-width: 510px;
+          width: 100%;
+          position: relative;
+          color: white;
+        }
+        
+        #start-screen h1.h3 {
+          font-size: 11px;
+        }
+        #question-image {
+            width: 235px;
+            height: 155px;
+            border: 3.5px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 9px 8px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 17px;
+            margin: 8px 9px;
+            cursor: pointer;
+            border: 3px solid #ddd;
+            border-radius: 8px;
+        }
+        #timer {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        #name-input {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 200px;
+            color: white;
+        }
+        
+.notification {
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: absolute;
+    top: 225px; /* Atur top lebih besar */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 80%;
+}
+.correct {
+    background-color: #4CAF50;
+    color: white;
+}
+.incorrect {
+    background-color: #f44336;
+    color: white;
+}
+.warning {
+    background-color: #ff9800;
+    color: white;
+}
