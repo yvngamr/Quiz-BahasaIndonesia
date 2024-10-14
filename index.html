@@ -48,7 +48,9 @@
  </style>
 </head>
 <body>
-  <div class="loader"></div>
+   <div id="loading">
+      <div class="loader"></div>
+   </div>
   <audio id="autoplayAudio" src="audio.mp3" autoplay muted></audio>
     <div id="quiz-container">
         <div id="start-screen">
@@ -265,6 +267,18 @@ function shareResults() {
     window.open(whatsappUrl, '_blank');
 }
 
+document.addEventListener 
+  ("DOMContentLoaded", function() {
+    setTimeout(function () {
+        var loadingOverlay = document.getElementById('loading');
+        loadingOverlay.style.display = 'none';
+        
+        
+        var audio = document.getElementById("myAudio");
+        audio.play();
+    }, 4000); // 4000 milidetik = 4 detik
+  });
+      
 const audio = document.getElementById('autoplayAudio');
 
         // Try to play the audio after a short delay to bypass some browser restrictions
