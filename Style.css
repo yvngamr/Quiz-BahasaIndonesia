@@ -6,10 +6,11 @@ body {
             height: 130vh !important;
             width: 100% auto;
             margin: 0;
-            background-image: url('Bg.gif');
+            background-image: url('5.gif');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            background-attachment: fixed;
            }
            
            
