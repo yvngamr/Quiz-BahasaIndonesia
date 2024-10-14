@@ -10,10 +10,46 @@
     <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqo_EQJKSEslo9GFhkfQOKda0RcsAgbdvC0r9nRcyP8bNuUr8c9K0f9Zg&s=10">
     <link rel="stylesheet" href="./Style.css">
     <link rel="icon" type="image/png" sizes="64x64" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqo_EQJKSEslo9GFhkfQOKda0RcsAgbdvC0r9nRcyP8bNuUr8c9K0f9Zg&s=10">
- 
+ <style>
+    #loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+}
+
+.loader {
+  border: 5px solid transparent;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite, changeColor 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes changeColor {
+  0% { border-top: 5px solid #3498db; }
+  25% { border-top: 5px solid #e74c3c; }
+  50% { border-top: 5px solid #2ecc71; }
+  75% { border-top: 5px solid #f1c40f; }
+  100% { border-top: 5px solid #3498db; }
+}
+ </style>
 </head>
 <body>
-  <audio id="autoplayAudio" src="audio1.mp3" autoplay muted></audio>
+  <div class="loader"></div>
+  <audio id="autoplayAudio" src="audio.mp3" autoplay muted></audio>
     <div id="quiz-container">
         <div id="start-screen">
             <h1>Quiz Bahasa Indonesia</h1>
@@ -229,18 +265,23 @@ function shareResults() {
     window.open(whatsappUrl, '_blank');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-        const audio = document.getElementById('autoplayAudio');
+const audio = document.getElementById('autoplayAudio');
 
-        // Coba mulai audio saat halaman dimuat
-        audio.play().catch(() => {
-            // Jika autoplay gagal (misalnya, karena policy browser), beri tahu pengguna untuk berinteraksi
-            console.log('Autoplay di-block. Klik di mana saja untuk mulai audio.');
-            document.body.addEventListener('click', function() {
-                audio.play();
-            }, { once: true });
+        // Try to play the audio after a short delay to bypass some browser restrictions
+        const attemptPlay = () => {
+            audio.muted = false;
+            audio.play().catch(error => {
+                console.log('Autoplay was prevented by the browser:', error);
+            });
+        };
+
+        // Attempt to unmute and play the audio after a short delay
+        window.addEventListener('load', () => {
+            setTimeout(attemptPlay, 1000); // 1 second delay
         });
-    });
+
+        // Add a user interaction event listener as a fallback
+        document.addEventListener('click', attemptPlay);
     </script>
 </body>
 </html>
