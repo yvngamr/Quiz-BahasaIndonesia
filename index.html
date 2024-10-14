@@ -262,7 +262,7 @@ function endQuiz() {
 function shareResults() {
     const name = localStorage.getItem('quizName');
     const score = localStorage.getItem('quizScore');
-    const message = `${name} selesai menyelsaikan quiz dengan score ${score} dari ${questions.length}! Benar: ${correctCount}, Salah: ${incorrectCount}`;
+    const message = `${name} selesai menyelesaikan quiz dengan score ${score} dari ${questions.length}! Benar: ${correctCount}, Salah: ${incorrectCount}`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 }
